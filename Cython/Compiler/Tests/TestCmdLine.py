@@ -273,6 +273,15 @@ class CmdLineParserTest(TestCase):
         self.check_default_global_options(['cimport_from_pyx'])
         self.check_default_options(options)
 
+    def test_cimport_from_py(self):
+        options, sources = parse_command_line([
+            '--cimport-from-py',
+            'source.py'
+        ])
+        self.assertEqual(Options.cimport_from_py, True)
+        self.check_default_global_options(['cimport_from_py'])
+        self.check_default_options(options)
+
     def test_Werror(self):
         options, sources = parse_command_line([
             '-Werror',

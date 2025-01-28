@@ -139,6 +139,9 @@ old_style_globals = ShouldBeFromDirective('old_style_globals')
 #: Allows cimporting from a pyx file without a pxd file.
 cimport_from_pyx = False
 
+#: Allows cimporting from a py file without a pxd file.
+cimport_from_py = False
+
 #: Maximum number of dimensions for buffers -- set lower than number of
 #: dimensions in numpy, as
 #: slices are passed by value and involve a lot of copying.

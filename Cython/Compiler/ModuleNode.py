@@ -1431,7 +1431,7 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
 
     def generate_cfunction_declarations(self, env, code, definition):
         for entry in env.cfunc_entries:
-            from_pyx = Options.cimport_from_pyx and not entry.visibility == 'extern'
+            from_pyx = (Options.cimport_from_pyx or Options.cimport_from_py) and not entry.visibility == 'extern'
             if (entry.used
                     or entry.visibility == 'public'
                     or entry.api
@@ -3675,7 +3675,7 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
         for entry in env.var_entries:
             if (entry.api
                     or entry.defined_in_pxd
-                    or (Options.cimport_from_pyx and not entry.visibility == 'extern')):
+                    or ((Options.cimport_from_pyx or Options.cimport_from_py) and not entry.visibility == 'extern')):
                 entries.append(entry)
         if entries:
             env.use_utility_code(UtilityCode.load_cached("VoidPtrExport", "ImportExport.c"))
@@ -3692,7 +3692,7 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
         for entry in env.cfunc_entries:
             if (entry.api
                     or entry.defined_in_pxd
-                    or (Options.cimport_from_pyx and not entry.visibility == 'extern')):
+                    or ((Options.cimport_from_pyx or Options.cimport_from_py) and not entry.visibility == 'extern')):
                 entries.append(entry)
         if entries:
             env.use_utility_code(

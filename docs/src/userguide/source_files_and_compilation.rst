@@ -803,6 +803,7 @@ Here are the options that are available:
 .. autodata:: Cython.Compiler.Options.embed
 .. old_style_globals
 .. autodata:: Cython.Compiler.Options.cimport_from_pyx
+.. autodata:: Cython.Compiler.Options.cimport_from_py
 .. autodata:: Cython.Compiler.Options.buffer_max_dims
 .. autodata:: Cython.Compiler.Options.closure_freelist_size
 

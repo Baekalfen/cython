@@ -1,0 +1,61 @@
+PYTHON setup.py build_ext --inplace
+PYTHON -c "import b;import d;d.D()"
+
+######## setup.py ########
+from Cython.Build.Dependencies import cythonize
+import Cython.Compiler.Options
+Cython.Compiler.Options.cimport_from_py = True
+Cython.Compiler.Options.annotation_typing  = True
+
+from distutils.core import setup
+
+setup(
+  ext_modules = cythonize("**/*.py"),
+)
+
+######## a.py ########
+import cython
+
+@cython.cclass
+class A:
+    _a : cython.int
+
+    def __init__(self):
+        self._a = 1
+
+######## b.py ########
+
+import cython
+from cython.cimports.a import A
+
+@cython.cclass
+class B(A):
+    _b : cython.int
+
+######## C/__init__.py ########
+
+
+######## C/c.py ########
+import cython
+
+@cython.cclass
+class C:
+    _c : cython.int
+
+    def __init__(self):
+        self._c = 1
+
+######## d.py ########
+import cython
+from cython.cimports.C.c import C
+
+@cython.cclass
+class D(C):
+    _d : cython.int
+
+######## e.pyx ########
+import cython
+from C.c cimport C
+
+cdef class E(C):
+    cdef cython.int _e

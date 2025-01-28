@@ -124,7 +124,7 @@ class Context:
 
     def process_pxd(self, source_desc, scope, module_name):
         from . import Pipeline
-        if isinstance(source_desc, FileSourceDescriptor) and source_desc._file_type == 'pyx':
+        if isinstance(source_desc, FileSourceDescriptor) and source_desc._file_type in ['pyx', 'py']:
             source = CompilationSource(source_desc, module_name, os.getcwd())
             result_sink = create_default_resultobj(source, self.options)
             pipeline = Pipeline.create_pyx_as_pxd_pipeline(self, result_sink)
@@ -273,7 +273,9 @@ class Context:
         pxd = self.search_include_directories(
             qualified_name, suffix=".pxd", source_pos=pos, sys_path=sys_path, source_file_path=source_file_path)
         if pxd is None and Options.cimport_from_pyx:
-            return self.find_pyx_file(qualified_name, pos, sys_path=sys_path)
+            pxd = self.find_pyx_file(qualified_name, pos, sys_path=sys_path)
+        if pxd is None and Options.cimport_from_py:
+            pxd = self.find_py_file(qualified_name, pos, sys_path=sys_path)
         return pxd
 
     def find_pyx_file(self, qualified_name, pos=None, sys_path=True, source_file_path=None):
@@ -281,6 +283,12 @@ class Context:
         # given fully-qualified module name, as for find_pxd_file().
         return self.search_include_directories(
             qualified_name, suffix=".pyx", source_pos=pos, sys_path=sys_path, source_file_path=source_file_path)
+
+    def find_py_file(self, qualified_name, pos=None, sys_path=True, source_file_path=None):
+        # Search include path for the .py file corresponding to the
+        # given fully-qualified module name, as for find_pxd_file().
+        return self.search_include_directories(
+            qualified_name, suffix=".py", source_pos=pos, sys_path=sys_path, source_file_path=source_file_path)
 
     def find_include_file(self, filename, pos=None, source_file_path=None):
         # Search list of include directories for filename.

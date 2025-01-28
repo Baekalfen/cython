@@ -165,6 +165,7 @@ Environment variables:
     parser.add_argument("--convert-range", dest='convert_range', action='store_true', help=SUPPRESS)
     parser.add_argument("--no-c-in-traceback", dest='c_line_in_traceback', action='store_false', help=SUPPRESS)
     parser.add_argument("--cimport-from-pyx", dest='cimport_from_pyx', action='store_true', help=SUPPRESS)
+    parser.add_argument("--cimport-from-py", dest='cimport_from_py', action='store_true', help=SUPPRESS)
     parser.add_argument("--old-style-globals", dest='old_style_globals', action='store_true', help=SUPPRESS)
 
     # debug stuff:
